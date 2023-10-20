@@ -1,13 +1,23 @@
 [tool.poetry]
 name = "kworld-ai"
 version = "0.1.0"
-description = ""
+description = "A Proof-of-Concept (PoC) of a conversational AI system that takes queries from users about the KPMG International website and provides an accurate, relevant, and on-topic response to them."
 authors = ["Juan Roesel <juanroesel@gmail.com.com>"]
 readme = "README.md"
 packages = [{include = "kworld_ai", from = "src"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">= 3.10, <3.13"
+bs4 = "^0.0.1"
+python-dotenv = "^1.0.0"
+tqdm = "^4.66.1"
+langchain = "^0.0.317"
+ipywidgets = "^8.1.1"
+pandas = "^2.1.1"
+sentence-transformers = "^2.2.2"
+openai = "^0.28.1"
+chromadb = "^0.4.14"
+tiktoken = "^0.5.1"
 
 
 [build-system]
