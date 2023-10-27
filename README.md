@@ -17,22 +17,35 @@ The system engineering relies on the following tools and frameworks, all release
 
 
 ## Requirements
-- [Python 3.10](https://www.python.org/downloads/release/python-3100/)
-- [Poetry](https://python-poetry.org/)
+- [Python (3.10)](https://www.python.org/downloads/release/python-3100/)
+- [Poetry (1.6.1)](https://python-poetry.org/)
 
 
 ## Installation
-1. Unzip the provided `kworld_ai.zip` file into a local directory.
-2. Using a `bash` terminal or the IDE of your choice, navigate to the root directory (where the `pyproject.toml` file is) and install the `kworld_ai` package by running the following comand:
+1. Download and unzip the provided `kworld_ai.zip` file into a local directory. The source code can be found in the `code` directory.
+2. Download and unzip the persisted instance of the Chroma Vector DB from [this folder](https://drive.google.com/drive/folders/1_jlKQk8Zvp26d12XJz4ukVokWR5_e7Hl?usp=share_link) and place the unzipped file `chroma.sqlite3` and folder `b02981fe-7174-43a1-995d-c5fc31293159` in the following location within the project directory: `./data/vector_db/`. The following is important: 
+- The file `data_level0.bin` might get renamed to `data_level0-001.bin` after unzipping. Rename the file to its original format if this happens.
+- The folder `./data/vector_db/` should look like this after all files have been gathered:
+```
+vector_db
+|___chroma.sqlite3
+|___b02981fe-7174-43a1-995d-c5fc31293159
+    |___data_level0.bin
+    |___header.bin
+    |___index_metadata.pickle
+    |___length.bin
+    |___link_lists.bin
+```
+3. Using a `bash` terminal or the IDE of your choice, navigate to the root project directory (where the `pyproject.toml` file is) and install the `kworld_ai` package by running the following comand:
 
 ```
 poetry install
 ```
-3. Activate the poetry shell:
+4. Activate the poetry shell:
 ```
 poetry shell
 ```
-4. Run the `main.py` file using poetry:
+5. Run the `main.py` file using poetry:
 ```
 poetry run python src/kworld_ai/main.py
 ```
@@ -40,11 +53,17 @@ poetry run python src/kworld_ai/main.py
 
 `--temperature`: Sets the OpenAI model's temperature. Use a lower value for more rigid responses.
 
-`--openai_api_key`: Overrides the default `OPENAI_API_KEY`` provided in the `.env` file.
+`--openai_api_key`: Overrides the default `OPENAI_API_KEY` provided in the `.env` file.
 
 `--embedding_model`: Overrides default Embedding model. Must be a valid HuggingFace model with dim=768.
 
 `--nearest_k`: Overrides default nearest K neighbours to return when performing semantic search in the vector space.
+
+Here's an example of how you could run `main.py` with arguments:
+
+```
+poetry run python src/kworld_ai/main.py --temperature=0.5 --nearest_k=4
+```
 
 ## Usage
 Once the `main.py` script has been run, the user can start interacting with the system via the terminal. Below are some example queries and responses:
@@ -72,6 +91,7 @@ ANSWER: KPMG has offices located in various cities across Canada, including Toro
 
 ## Limitations
 
+- The web scraper only extracted information contained within the `<p>` tags.
 - The system's pipeline currently relies on synchronous processing, which can make certain processes such as data scraping/loading run considerably slow.
 - The embedding workflow introduced in `2-Embedder.ipynb` is designed to run on a single GPU, which can take some time to run (~3 hours with an A100 GPU in Google Colab).
 - In-memory caching: In the interest of speed, all data structures and databases were kept in-memory.
